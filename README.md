@@ -145,6 +145,23 @@ Validation returns **400** for missing/empty text, excessive lengths, unknown fi
 
 For manual Postman requests, select **Body → raw → JSON**, paste the example above, and use the API table. To demonstrate validation, omit `title` or set `available_positions` to `0`. To demonstrate 404, delete an ID and GET that exact ID again.
 
+### Completed testing demonstration
+
+On **14 October 2026**, the exported Postman v2.1 collection was executed against the running Python backend and MySQL using **Newman, Postman's command-line collection runner**. All **12 requests and 34 assertions passed**, with zero failures. MySQL generated IDs **6, 7, and 8** during this run; collection scripts captured them from the POST responses automatically.
+
+| TA requirement                      | Collection request(s) | Observed result                                                                      |
+| ----------------------------------- | --------------------- | ------------------------------------------------------------------------------------ |
+| Create at least three opportunities | 01, 02, 03            | Three records created; each returned **201**                                         |
+| Retrieve all opportunities          | 04                    | **200**; all three created IDs were present                                          |
+| Retrieve one opportunity by ID      | 05                    | **200**; ID 6 and its complete details returned                                      |
+| Update an existing opportunity      | 06                    | **200**; title, skills, and positions updated                                        |
+| Change Open to Closed               | 07                    | **200**; ID 6 returned `status: Closed`                                              |
+| Delete an opportunity               | 08                    | **200**; ID 8 deleted                                                                |
+| Request the deleted opportunity     | 09                    | **404** for the same ID 8                                                            |
+| Send invalid or missing data        | 10                    | **400**; missing title, zero positions, impossible date, and invalid status rejected |
+
+Requests 11 and 12 removed only the remaining demonstration records after testing. The exported collection keeps its ID variables empty so the instructor can rerun it against a fresh database. Execution reports and validation scripts are deliberately excluded from the repository and submission ZIP.
+
 ### What to export from Postman
 
 Export the **collection as JSON**, keeping its requests, bodies, variables, and test scripts. If your Postman version offers a format choice, select **Collection v2.1**. Save it as `Research-Opportunity-Portal.postman_collection.json` under `postman/`. This file is already supplied in v2.1 format and is the required export. In current Postman, use the collection's `…` menu → **More → Export collection → Export JSON**; older versions may offer Export directly. Reset generated ID variables before exporting if they contain values from your run. Do not export passwords, tokens, account settings, screenshots, or an entire workspace. A Runner results export is optional evidence and is not required in this ZIP.
