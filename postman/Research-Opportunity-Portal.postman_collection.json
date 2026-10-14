@@ -1,0 +1,424 @@
+{
+  "info": {
+    "name": "Research Opportunity Portal - Python and MySQL",
+    "description": "P24_0756 MUHAMMAD FASEEH, BAI 5A. Run once, in order, with Python and MySQL running. Covers every TA-required Postman demonstration. The last two requests optionally clean up this run's remaining records. No account or environment credentials are required.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://127.0.0.1:5000",
+      "type": "string"
+    },
+    {
+      "key": "opportunityId1",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "opportunityId2",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "opportunityId3",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "01 Create opportunity 1",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/opportunities",
+        "description": "01 Create opportunity 1. Run requests in order; IDs come from the actual MySQL responses.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Network Traffic Analysis\",\n  \"description\": \"Study campus network performance and identify congestion patterns.\",\n  \"research_area\": \"Computer Networks\",\n  \"faculty_name\": \"Dr. Ayesha Khan\",\n  \"department\": \"Computer Science\",\n  \"required_skills\": \"Python, Wireshark, TCP/IP\",\n  \"available_positions\": 3,\n  \"application_deadline\": \"2027-06-30\",\n  \"status\": \"Open\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "[1, 2, 3].forEach(n => pm.collectionVariables.unset('opportunityId' + n));"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 201', () => pm.response.to.have.status(201));",
+              "const record = pm.response.json();",
+              "pm.test('MySQL generated an ID', () => pm.expect(record.id).to.be.a('number').above(0));",
+              "pm.test('Created record has all fields', () => pm.expect(record).to.have.keys('id', 'title', 'description', 'research_area', 'faculty_name', 'department', 'required_skills', 'available_positions', 'application_deadline', 'status', 'created_at', 'updated_at'));",
+              "pm.test('Opportunity is open', () => pm.expect(record.status).to.eql('Open'));",
+              "if (pm.response.code === 201 && Number.isInteger(record.id)) pm.collectionVariables.set('opportunityId1', String(record.id));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "02 Create opportunity 2",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/opportunities",
+        "description": "02 Create opportunity 2. Run requests in order; IDs come from the actual MySQL responses.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Privacy in Student Data\",\n  \"description\": \"Study campus network performance and identify congestion patterns.\",\n  \"research_area\": \"Information Security\",\n  \"faculty_name\": \"Dr. Ayesha Khan\",\n  \"department\": \"Computer Science\",\n  \"required_skills\": \"Python, SQL, Research writing\",\n  \"available_positions\": 3,\n  \"application_deadline\": \"2027-06-30\",\n  \"status\": \"Open\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 201', () => pm.response.to.have.status(201));",
+              "const record = pm.response.json();",
+              "pm.test('MySQL generated an ID', () => pm.expect(record.id).to.be.a('number').above(0));",
+              "pm.test('Created record has all fields', () => pm.expect(record).to.have.keys('id', 'title', 'description', 'research_area', 'faculty_name', 'department', 'required_skills', 'available_positions', 'application_deadline', 'status', 'created_at', 'updated_at'));",
+              "pm.test('Opportunity is open', () => pm.expect(record.status).to.eql('Open'));",
+              "if (pm.response.code === 201 && Number.isInteger(record.id)) pm.collectionVariables.set('opportunityId2', String(record.id));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "03 Create opportunity 3",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/opportunities",
+        "description": "03 Create opportunity 3. Run requests in order; IDs come from the actual MySQL responses.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Accessible Campus Interfaces\",\n  \"description\": \"Study campus network performance and identify congestion patterns.\",\n  \"research_area\": \"Human-Computer Interaction\",\n  \"faculty_name\": \"Dr. Ayesha Khan\",\n  \"department\": \"Computer Science\",\n  \"required_skills\": \"React, Accessibility, User interviews\",\n  \"available_positions\": 3,\n  \"application_deadline\": \"2027-06-30\",\n  \"status\": \"Open\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 201', () => pm.response.to.have.status(201));",
+              "const record = pm.response.json();",
+              "pm.test('MySQL generated an ID', () => pm.expect(record.id).to.be.a('number').above(0));",
+              "pm.test('Created record has all fields', () => pm.expect(record).to.have.keys('id', 'title', 'description', 'research_area', 'faculty_name', 'department', 'required_skills', 'available_positions', 'application_deadline', 'status', 'created_at', 'updated_at'));",
+              "pm.test('Opportunity is open', () => pm.expect(record.status).to.eql('Open'));",
+              "if (pm.response.code === 201 && Number.isInteger(record.id)) pm.collectionVariables.set('opportunityId3', String(record.id));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "04 Retrieve all opportunities",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/opportunities",
+        "description": "04 Retrieve all opportunities. Run requests in order; IDs come from the actual MySQL responses."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "const records = pm.response.json();",
+              "pm.test('Response is a list', () => pm.expect(records).to.be.an('array'));",
+              "pm.test('All three created records are in MySQL', () => [1, 2, 3].forEach(n => pm.expect(records.some(r => String(r.id) === pm.collectionVariables.get('opportunityId' + n))).to.eql(true)));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "05 Retrieve one opportunity",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/opportunities/{{opportunityId1}}",
+        "description": "05 Retrieve one opportunity. Run requests in order; IDs come from the actual MySQL responses."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "pm.test('Correct ID returned', () => pm.expect(String(pm.response.json().id)).to.eql(pm.collectionVariables.get('opportunityId1')));",
+              "pm.test('Date uses ISO format', () => pm.expect(pm.response.json().application_deadline).to.match(/^\\d{4}-\\d{2}-\\d{2}$/));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "06 Update opportunity",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/opportunities/{{opportunityId1}}",
+        "description": "06 Update opportunity. Run requests in order; IDs come from the actual MySQL responses.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Updated Network Traffic Analysis\",\n  \"description\": \"Study campus network performance and identify congestion patterns.\",\n  \"research_area\": \"Computer Networks\",\n  \"faculty_name\": \"Dr. Ayesha Khan\",\n  \"department\": \"Computer Science\",\n  \"required_skills\": \"Python, Wireshark, TCP/IP, SQL\",\n  \"available_positions\": 5,\n  \"application_deadline\": \"2027-06-30\",\n  \"status\": \"Open\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "pm.test('Title updated', () => pm.expect(pm.response.json().title).to.eql('Updated Network Traffic Analysis'));",
+              "pm.test('Positions updated', () => pm.expect(pm.response.json().available_positions).to.eql(5));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "07 Change status from Open to Closed",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/opportunities/{{opportunityId1}}",
+        "description": "07 Change status from Open to Closed. Run requests in order; IDs come from the actual MySQL responses.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Updated Network Traffic Analysis\",\n  \"description\": \"Study campus network performance and identify congestion patterns.\",\n  \"research_area\": \"Computer Networks\",\n  \"faculty_name\": \"Dr. Ayesha Khan\",\n  \"department\": \"Computer Science\",\n  \"required_skills\": \"Python, Wireshark, TCP/IP, SQL\",\n  \"available_positions\": 5,\n  \"application_deadline\": \"2027-06-30\",\n  \"status\": \"Closed\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "pm.test('Status is closed', () => pm.expect(pm.response.json().status).to.eql('Closed'));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "08 Delete opportunity 3",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/opportunities/{{opportunityId3}}",
+        "description": "08 Delete opportunity 3. Run requests in order; IDs come from the actual MySQL responses."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "pm.test('Deleted ID returned', () => pm.expect(String(pm.response.json().id)).to.eql(pm.collectionVariables.get('opportunityId3')));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "09 Get deleted opportunity returns 404",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/opportunities/{{opportunityId3}}",
+        "description": "09 Get deleted opportunity returns 404. Run requests in order; IDs come from the actual MySQL responses."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 404', () => pm.response.to.have.status(404));",
+              "pm.test('Readable not-found message', () => pm.expect(pm.response.json().message).to.include('not found'));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "10 Missing and invalid data returns 400",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/opportunities",
+        "description": "10 Missing and invalid data returns 400. Run requests in order; IDs come from the actual MySQL responses.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"available_positions\": 0,\n  \"application_deadline\": \"2027-02-30\",\n  \"status\": \"Pending\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 400', () => pm.response.to.have.status(400));",
+              "const errors = pm.response.json().errors;",
+              "pm.test('Missing title rejected', () => pm.expect(errors).to.have.property('title'));",
+              "pm.test('Zero positions rejected', () => pm.expect(errors).to.have.property('available_positions'));",
+              "pm.test('Impossible date rejected', () => pm.expect(errors).to.have.property('application_deadline'));",
+              "pm.test('Unknown status rejected', () => pm.expect(errors).to.have.property('status'));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "11 Cleanup opportunity 1 (optional)",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/opportunities/{{opportunityId1}}",
+        "description": "11 Cleanup opportunity 1 (optional). Run requests in order; IDs come from the actual MySQL responses."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "12 Cleanup opportunity 2 (optional)",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/opportunities/{{opportunityId2}}",
+        "description": "12 Cleanup opportunity 2 (optional). Run requests in order; IDs come from the actual MySQL responses."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
