@@ -83,6 +83,7 @@ export default function OpportunityForm({ record, onClose, onSave }) {
       name,
       value: form[name],
       onChange: change,
+      onInput: name === "application_deadline" ? change : undefined,
       required: true,
       disabled: busy,
       "aria-invalid": Boolean(errors[name]),
